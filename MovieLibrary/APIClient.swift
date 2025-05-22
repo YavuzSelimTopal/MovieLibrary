@@ -17,7 +17,7 @@ enum APIError: Error {
 class APIClient {
     
     //Url ve hangi model dönecekse onu seçeceğiz
-    func fetch<T: Decodable>(urlString: String,responseType: T.Type) async throws -> T {
+    static func fetch<T: Decodable>(urlString: String,responseType: T.Type) async throws -> T {
         
         //url doğrumu kontrol edeceğiz
         guard let url = URL(string: urlString) else {
