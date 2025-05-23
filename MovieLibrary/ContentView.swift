@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = GenericViewModel<UserElement>(urlString: "https://jsonplaceholder.typicode.com/users")
+    @StateObject private var viewModel = GenericViewModel<UserElement>(urlString: Constants.URL.userExtenstion)
     
     var body: some View {
         NavigationView {
-            List(viewModel.items) { post in
+            List(viewModel.FetchModelName) { post in
                 VStack(alignment: .leading) {
                     Text(post.name)
                 }
             }
             .navigationTitle("Kullanıcılar")
             .task {
-                await viewModel.fetch()
+                await viewModel.fetchViewModel()
             }
         }
     }

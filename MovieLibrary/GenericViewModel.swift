@@ -9,29 +9,23 @@ import Foundation
 
 @MainActor
 class GenericViewModel<T: Decodable>: ObservableObject {
-    @Published var items: [T] = []
-    @Published var isLoading = false
-    @Published var errorMesage: String?
+    @Published var FetchModelName: [T] = []
     
-    let urlString: String
+    let urlStringViewModel: String
     
     init(urlString: String) {
-        self.urlString = urlString
+        self.urlStringViewModel = urlString
     }
     
-    func fetch() async {
-        isLoading = true
-        errorMesage = nil
+    func fetchViewModel() async {
         
         do {
-            let result = try await APIClient.fetch(urlString: urlString,responseType: [T].self)
-            self.items = result
+            let result = try await APIClient.fetch(urlString: urlStringViewModel,responseType: [T].self)
+            self.FetchModelName = result
         } catch {
-            self.errorMesage = error.localizedDescription
+            
         }
-        isLoading = false
     }
-    
 }
 
 
