@@ -7,23 +7,13 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @StateObject private var viewModel = GenericViewModel<UserElement>(urlString: Constants.URL.userExtenstion)
+struct ContentView<ViewModel: MovieSearchViewModel>: View {
+    @StateObject var viewModel: ViewModel
     
     var body: some View {
-        NavigationView {
-            List(viewModel.FetchModelName) { post in
-                VStack(alignment: .leading) {
-                    Text(post.name)
-                }
-            }
-            .navigationTitle("Kullanıcılar")
-            .task {
-                await viewModel.fetchViewModel()
-            }
-        }
+       MovieSearchView(viewModel: viewModel)
     }
 }
 #Preview {
-    ContentView()
+    // ContentView()
 }
