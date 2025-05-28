@@ -7,13 +7,31 @@
 
 import SwiftUI
 
-struct ContentView<ViewModel: MovieSearchViewModel>: View {
+struct ContentView<ViewModel: SearchViewModel>: View {
     @StateObject var viewModel: ViewModel
     
     var body: some View {
-       MovieSearchView(viewModel: viewModel)
+        VStack {
+            Button("Create Post") {
+                Task { await viewModel.createPost() }
+            }
+            
+            
+            List(viewModel.posts) { post in
+                VStack {
+                    Text(post.title)
+                        .font(.headline)
+                    Text(post.body)
+                }
+            }
+            .padding()
+        }
+        .task {
+            await viewModel.getPosts()
+        }
     }
 }
+
 #Preview {
-    // ContentView()
+//    ContentView(viewModel: ContentViewModel())
 }

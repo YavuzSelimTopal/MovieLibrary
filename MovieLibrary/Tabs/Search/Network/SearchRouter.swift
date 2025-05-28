@@ -1,16 +1,37 @@
 import Foundation
 
-enum SearchRouter {
-    case search(String)
-    case user
-    
-    
-    var urlString: String {
+enum SearchRouter: Endpoint {
+    case getPosts
+    case createPost(title: String, body: String, userId: Int)
+
+    var path: String {
         switch self {
-        case .search(let query):
-            "\(Constants.URL.baseURLString)/search/\(query)"
-        case .user:
-            "\(Constants.URL.baseURLString)/users"
+        case .getPosts: return "/posts"
+        case .createPost: return "/posts"
+            
+        }
+    }
+    
+    var method: HTTPMethod {
+        switch self {
+        case .getPosts: return .get
+        case .createPost: return .post
+        }
+    }
+    
+    var queryItems: [URLQueryItem]? {
+        switch self {
+        case .getPosts: return nil
+        case .createPost: return nil
+        }
+    }
+    
+    var body: [String : Any]? {
+        switch self {
+        case .getPosts:
+            return nil
+        case let .createPost(title, body, userId):
+            return ["title": title, "body": body, "userId": userId]
         }
     }
 }

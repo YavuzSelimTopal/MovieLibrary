@@ -2,35 +2,17 @@
 //  MovieSearchView.swift
 //  MovieLibrary
 //
-//  Created by MACim on 23.05.2025.
+//  Created by MACim on 27.05.2025.
 //
 
 import SwiftUI
 
-
-struct MovieSearchView<ViewModel: MovieSearchViewModel>: View {
-  
-    @StateObject var viewModel: ViewModel
-    
+struct MovieSearchView: View {
     var body: some View {
-        NavigationView {
-          
-            List(viewModel.users) { user in
-                VStack(alignment: .leading) {
-                   
-                    Text(user.name)
-                }
-            }
-            
-            .navigationTitle("Kullanıcılar")
-           
-            .task {
-                await viewModel.fetchUsers()
-            }
-        }
+        Text("Search")
     }
 }
 
 #Preview {
-    //MovieSearchView()
+    MovieSearchView()
 }

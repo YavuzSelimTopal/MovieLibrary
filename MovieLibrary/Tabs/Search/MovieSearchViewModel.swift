@@ -8,26 +8,43 @@
 import Foundation
 
 @MainActor
-class MovieSearchViewModel: ObservableObject {
-    @Published var users: [UserElement] = []
-
-    private let searchService: SearchService
+final class SearchViewModel: ObservableObject {
+    private let searchService: SearchServiceProtocol
     
-    init(searchService: SearchService) {
+    @Published var posts: [PostsModel] = []
+    
+    var title: String {
+        "Network Demo"
+    }
+    
+    var body: String {
+        "Hello, World!"
+    }
+    
+    init (searchService: SearchServiceProtocol) {
         self.searchService = searchService
     }
-
-    func fetchUsers() async {
+    
+    // Get request sample
+    func getPosts() async {
         do {
-            let users = try await searchService.users()
-            self.users = users
+            let posts = try await searchService.getPosts()
+            self.posts = posts
         } catch {
-            print(error)
+            print(error.localizedDescription)
+        }
+    }
+    
+    // Post request sample with http body
+    func createPost() async {
+        do {
+            let post = try await searchService.createPost(title: title, body: body, userId: 1)
+            print(post)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
-
-
 
 
 
