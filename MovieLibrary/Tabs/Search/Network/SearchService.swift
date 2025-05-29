@@ -7,9 +7,6 @@
 
 import Foundation
 
-
-import Foundation
-
 protocol SearchServiceProtocol {
     func getPosts() async throws -> [PostsModel]
     func createPost(title: String, body: String, userId: Int) async throws -> PostsModel

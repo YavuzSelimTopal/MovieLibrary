@@ -8,21 +8,46 @@
 import SwiftUI
 
 struct HomeMovieCell: View {
+    let movie: MovieModel
+
     var body: some View {
-        NavigationStack {
-            VStack {
-                Image ("movie")
-                    .resizable()
-                    //.aspectRatio(contentMode: .fit)
-                    .frame(width: 250, height: 150)
-                    .shadow(radius: 5)
+        VStack(alignment: .leading) {
+            if let posterURL = movie.posterURL {
+                AsyncImage(url: posterURL) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                } placeholder: {
+                    Color.gray.opacity(0.3)
+                }
+                .frame(width: 150, height: 225)
+                .cornerRadius(15)
+                .shadow(radius: 5)
+            } else {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 150, height: 225)
                     .cornerRadius(15)
-                Text("Thor")
+                    .shadow(radius: 5)
             }
+            Text(movie.title)
+                .font(.caption)
+                .lineLimit(1)
+                .frame(width: 150, alignment: .leading)
         }
     }
 }
 
+
 #Preview {
-    HomeMovieCell()
+    let sampleDTO = MovieDTO(
+        id: 1,
+        title: "Boş Değer",
+        overview: "Thor film açıklaması...",
+        posterPath: "movie",
+        releaseDate: "2023-07-10",
+        voteAverage: 8.3
+    )
+    
+    HomeMovieCell(movie: MovieModel(dto: sampleDTO))
 }
