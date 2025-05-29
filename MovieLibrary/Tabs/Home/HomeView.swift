@@ -20,7 +20,60 @@ struct HomeView: View {
                 }.tag(1)
                 
                 ZStack {
-                    Text("Home")
+                    ScrollView {
+                        VStack {
+                            HStack {
+                                Text("Pobüler Filmler")
+                                Spacer()
+                            }
+                            ScrollView(.horizontal) {
+                                LazyHStack {
+                                    ForEach (0..<20) { index in
+                                        HomeMovieCell()
+                                    }
+                                }
+                            }
+                            HStack {
+                                Text("Bu Yıl Çıkanlar")
+                                Spacer()
+                            }
+                            ScrollView(.horizontal) {
+                                LazyHStack {
+                                    ForEach (0..<20) { index in
+                                        HomeMovieCell()
+                                    }
+                                }
+                            }
+                            HStack {
+                                Text("Aksiyon")
+                                Spacer()
+                            }
+                            ScrollView(.horizontal) {
+                                LazyHStack {
+                                    ForEach (0..<20) { index in
+                                        HomeMovieCell()
+                                    }
+                                }
+                            }
+                            
+                            HStack {
+                                Text("Komedi")
+                                Spacer()
+                            }
+                            ScrollView(.horizontal) {
+                                LazyHStack {
+                                    ForEach (0..<20) { index in
+                                        HomeMovieCell()
+                                    }
+                                }
+                            }
+                            
+                            
+                        }.padding()
+                    }
+                    
+                    
+                        
                 }.tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")

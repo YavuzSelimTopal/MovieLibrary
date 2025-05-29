@@ -17,10 +17,10 @@ protocol Endpoint {
 
 extension Endpoint {
     var baseURL: String {
-        "https://jsonplaceholder.typicode.com"
+        "https://api.themoviedb.org/3/"
     }
     
     var token: String? {
-        nil
+        "0973a9edb0e6263a0644cdc44a81abc9"
     }
 }
