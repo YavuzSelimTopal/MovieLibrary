@@ -31,6 +31,7 @@ struct HomeView: View {
                 ZStack {
                     ScrollView {
                         VStack(spacing: 20) {
+                            
                             CategorySectionView(title: "Popüler Filmler", movies: viewModel.popularMovies)
                             CategorySectionView(title: "Bu Yıl Çıkanlar", movies: viewModel.thisYearMovies)
                             CategorySectionView(title: "Aksiyon", movies: viewModel.actionMovies)
@@ -80,6 +81,7 @@ struct CategorySectionView: View {
         }
     }
 }
+
 
 #Preview {
     HomeView()

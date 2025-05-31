@@ -10,7 +10,7 @@ import Foundation
 
 enum HomeRouter: Endpoint {
     
-    case getAction //
+    case getAction
     case getComedy
     case getPopular
     case getThisYear
@@ -70,6 +70,7 @@ enum HomeRouter: Endpoint {
         }
     }
 }
+
 
 //MARK: - Popular           https://api.themoviedb.org/3/movie/popular?api_key=0973a9edb0e6263a0644cdc44a81abc9&language=tr-TR
 

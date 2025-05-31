@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView<ViewModel: SearchViewModel>: View {
+struct ContentView<ViewModel: HomeViewModel>: View {
     @StateObject var viewModel: ViewModel
     
     var body: some View {
