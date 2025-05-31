@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 // API'den dönen yanıtın tamamını karşılar
 struct MovieResponseDTO: Decodable {
     let results: [MovieDTO]
