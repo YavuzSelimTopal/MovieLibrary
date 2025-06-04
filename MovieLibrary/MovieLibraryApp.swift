@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct MovieLibraryApp: App {
+    @State var showSplashScreen: Bool = true
+
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: HomeViewModel(movieService: MovieService(requestProcessor: RequestProcessor())))
+            if showSplashScreen {
+                SplashScreen()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            showSplashScreen = false
+                        }
+                    }
+            } else {
+                ContentView(viewModel: HomeViewModel(movieService: MovieService(requestProcessor: RequestProcessor())))
+            }
         }
     }
 }

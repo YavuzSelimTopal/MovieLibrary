@@ -12,6 +12,7 @@ protocol RequestProcessorProtocol {
 }
 
 final class RequestProcessor: RequestProcessorProtocol {
+    
     private var session: URLSession {
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration)

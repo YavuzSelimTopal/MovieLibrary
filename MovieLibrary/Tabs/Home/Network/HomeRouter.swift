@@ -18,9 +18,9 @@ enum HomeRouter: Endpoint {
     var path: String {
         switch self {
         case .getAction, .getComedy, .getThisYear:
-                return "discover/movie"
+            return "discover/movie"
         case .getPopular:
-                return "movie/popular"
+            return "movie/popular"
         }
     }
     

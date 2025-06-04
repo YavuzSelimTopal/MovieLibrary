@@ -42,11 +42,19 @@ struct HomeMovieCell: View {
 #Preview {
     let sampleDTO = MovieDTO(
         id: 1,
-        title: "Boş Değer",
+        title: "Thor",
+        originalTitle: "Thor",
+        posterPath: "/sample.jpg",
+        backdropPath: "/sample_backdrop.jpg",
         overview: "Thor film açıklaması...",
-        posterPath: "movie",
         releaseDate: "2023-07-10",
-        voteAverage: 8.3
+        voteAverage: 8.3,
+        voteCount: 1200,
+        popularity: 500.0,
+        genreIds: [28, 12],
+        originalLanguage: "en",
+        video: false,
+        adult: false
     )
     
     HomeMovieCell(movie: MovieModel(dto: sampleDTO))
