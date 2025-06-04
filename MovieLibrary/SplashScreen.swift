@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct SplashScreen: View {
     @State private var pulse = false
     @State private var moveUp = false
