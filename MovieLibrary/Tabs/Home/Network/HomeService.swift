@@ -7,13 +7,11 @@
 
 import Foundation
 
-import Foundation
-
 protocol MovieServiceProtocol {
-    func getActionMovies() async throws -> [MovieModel]
-    func getComedyMovies() async throws -> [MovieModel]
-    func getPopularMovies() async throws -> [MovieModel]
-    func getThisYearMovies() async throws -> [MovieModel]
+    func getActionMovies(page: Int) async throws -> [MovieModel]
+    func getComedyMovies(page: Int) async throws -> [MovieModel]
+    func getPopularMovies(page: Int) async throws -> [MovieModel]
+    func getThisYearMovies(page: Int) async throws -> [MovieModel]
 }
 
 final class MovieService: MovieServiceProtocol {
@@ -23,36 +21,39 @@ final class MovieService: MovieServiceProtocol {
         self.requestProcessor = requestProcessor
     }
     
-    func getActionMovies() async throws -> [MovieModel] {
+    func getActionMovies(page: Int) async throws -> [MovieModel] {
+        let endpoint = HomeRouter.getAction(page: page)
         let dto = try await requestProcessor.request(
-            endpoint: HomeRouter.getAction,
+            endpoint: endpoint,
             type: MovieResponseDTO.self
         )
         return dto.results.map { MovieModel(dto: $0) }
     }
 
-    func getComedyMovies() async throws -> [MovieModel] {
+    func getComedyMovies(page: Int) async throws -> [MovieModel] {
+        let endpoint = HomeRouter.getComedy(page: page)
         let dto = try await requestProcessor.request(
-            endpoint: HomeRouter.getComedy,
+            endpoint: endpoint,
             type: MovieResponseDTO.self
         )
         return dto.results.map { MovieModel(dto: $0) }
     }
 
-    func getPopularMovies() async throws -> [MovieModel] {
+    func getPopularMovies(page: Int) async throws -> [MovieModel] {
+        let endpoint = HomeRouter.getPopular(page: page)
         let dto = try await requestProcessor.request(
-            endpoint: HomeRouter.getPopular,
+            endpoint: endpoint,
             type: MovieResponseDTO.self
         )
         return dto.results.map { MovieModel(dto: $0) }
     }
 
-    func getThisYearMovies() async throws -> [MovieModel] {
+    func getThisYearMovies(page: Int) async throws -> [MovieModel] {
+        let endpoint = HomeRouter.getThisYear(page: page)
         let dto = try await requestProcessor.request(
-            endpoint: HomeRouter.getThisYear,
+            endpoint: endpoint,
             type: MovieResponseDTO.self
         )
         return dto.results.map { MovieModel(dto: $0) }
     }
 }
-

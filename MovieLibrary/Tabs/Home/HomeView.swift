@@ -14,13 +14,23 @@ struct HomeView: View {
     init() {
         let movieService = MovieService(requestProcessor: RequestProcessor())
         _viewModel = StateObject(wrappedValue: HomeViewModel(movieService: movieService))
+
+        // Configure UITabBar with a default background and blur effect
+        let appearance = UITabBarAppearance()
+        appearance.configureWithDefaultBackground()
+        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 
     @State var selectedTab: Int = 0
 
     var body: some View {
+        
         NavigationStack {
+            
             TabView(selection: $selectedTab) {
+                
                 ProfileView()
                     .tabItem {
                         Image(systemName: "person.circle")
@@ -29,13 +39,49 @@ struct HomeView: View {
                     .tag(1)
 
                 ZStack {
+                    Color.black.ignoresSafeArea()
                     ScrollView {
                         VStack(spacing: 20) {
                             
-                            CategorySectionView(title: "Popüler Filmler", movies: viewModel.popularMovies)
-                            CategorySectionView(title: "Bu Yıl Çıkanlar", movies: viewModel.thisYearMovies)
-                            CategorySectionView(title: "Aksiyon", movies: viewModel.actionMovies)
-                            CategorySectionView(title: "Komedi", movies: viewModel.comedyMovies)
+                            CategorySectionView(
+                                title: "Popüler Filmler",
+                                movies: viewModel.popularMovies,
+                                loadMore: {
+                                    Task {
+                                        await viewModel.fetchPopularMovies()
+                                    }
+                                }
+                            )
+                            
+                            CategorySectionView(
+                                title: "Bu Yıl Çıkanlar",
+                                movies: viewModel.thisYearMovies,
+                                loadMore: {
+                                    Task {
+                                        await viewModel.fetchThisYearMovies()
+                                    }
+                                }
+                            )
+                            
+                            CategorySectionView(
+                                title: "Aksiyon",
+                                movies: viewModel.actionMovies,
+                                loadMore: {
+                                    Task {
+                                        await viewModel.fetchActionMovies()
+                                    }
+                                }
+                            )
+                            
+                            CategorySectionView(
+                                title: "Komedi",
+                                movies: viewModel.comedyMovies,
+                                loadMore: {
+                                    Task {
+                                        await viewModel.fetchComedyMovies()
+                                    }
+                                }
+                            )
                         }
                         .padding()
                     }
@@ -56,6 +102,7 @@ struct HomeView: View {
             .task {
                 await viewModel.fetchAllMovies()
             }
+            .tint(.white)
         }
     }
 }
@@ -63,18 +110,25 @@ struct HomeView: View {
 struct CategorySectionView: View {
     let title: String
     let movies: [MovieModel]
+    let loadMore: () -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text(title)
+                    .foregroundStyle(.white)
                     .font(.headline)
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 16) {
-                    ForEach(movies) { movie in
-                        HomeMovieCell(movie: movie)
+                    ForEach(movies.indices, id: \.self) { index in
+                        HomeMovieCell(movie: movies[index])
+                            .onAppear {
+                                if index == movies.count - 1 {
+                                    loadMore()
+                                }
+                            }
                     }
                 }
             }
