@@ -31,7 +31,7 @@ struct HomeMovieCell: View {
                     .shadow(radius: 5)
             }
             Text(movie.title)
-                .foregroundStyle(.white)
+                .foregroundStyle(.red)
                 .font(.caption)
                 .lineLimit(1)
                 .frame(width: 150, alignment: .leading)

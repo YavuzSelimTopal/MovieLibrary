@@ -21,8 +21,14 @@ struct MovieLibraryApp: App {
                         }
                     }
             } else {
+                //TODO: TabbarView
                 ContentView(viewModel: HomeViewModel(movieService: MovieService(requestProcessor: RequestProcessor())))
             }
         }
     }
 }
+/*
+ 1- TabbarView
+ 2- Loading Indicator (lottie ios, swiftui network state management)
+ 3- Movie of the day
+ */

@@ -5,6 +5,17 @@
 //  Created by MACim on 28.05.2025.
 //
 
+enum LoadingState<Value> {
+    case loading
+    case failed(Error)
+    case loaded(Value)
+}
+
+struct HomeData {
+    let popularMoviews: [MovieModel]
+    let actionMovies: [MovieModel]
+}
+
 import Foundation
 
 @MainActor
@@ -28,6 +39,8 @@ final class HomeViewModel: ObservableObject {
     private var thisYearCurrentPage = 1
     private var canLoadMoreThisYear = true
 
+    @Published var state: LoadingState<HomeData> = .loading
+    
     init(movieService: MovieServiceProtocol) {
         self.movieService = movieService
     }
@@ -78,7 +91,6 @@ final class HomeViewModel: ObservableObject {
     }
 
     func fetchThisYearMovies() async {
-        guard canLoadMoreThisYear else { return }
         do {
             let movies = try await movieService.getThisYearMovies(page: thisYearCurrentPage)
             if movies.isEmpty {
@@ -88,17 +100,21 @@ final class HomeViewModel: ObservableObject {
                 thisYearMovies.append(contentsOf: movies)
             }
         } catch {
+            state = .failed(error)
             print("Bu yıl çıkan filmler hatası:", error.localizedDescription)
         }
     }
 
     // Tümünü çağırmak için toplu fonksiyon (isteğe bağlı)
     func fetchAllMovies() async {
-        async let action = fetchActionMovies()
-        async let comedy = fetchComedyMovies()
-        async let popular = fetchPopularMovies()
-        async let thisYear = fetchThisYearMovies()
+        state = .loading
+        async let action: () = fetchActionMovies()
+        async let comedy: () = fetchComedyMovies()
+        async let popular: () = fetchPopularMovies()
+        async let thisYear: () = fetchThisYearMovies()
 
         _ = await (action, comedy, popular, thisYear)
+        let dta = HomeData(popularMoviews: popularMovies, actionMovies: actionMovies)
+        state = .loaded(dta)
     }
 }

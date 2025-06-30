@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieModel: Identifiable {
+struct MovieModel: Identifiable, Hashable {
     let id: Int
     let title: String
     let overview: String
@@ -16,6 +16,14 @@ struct MovieModel: Identifiable {
     let backdropURL: URL?
     let releaseDate: String
     let voteAverage: Double
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: MovieModel, rhs: MovieModel) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension MovieModel {

@@ -8,13 +8,5 @@
 import Foundation
 
 struct PostsModel: Identifiable {
-    let id: Int
-    let title: String
-    let body: String
-    
-    init(dto: PostsDTO) {
-        self.id = dto.id
-        self.title = dto.title
-        self.body = dto.body
-    }
+    var id: ObjectIdentifier
 }

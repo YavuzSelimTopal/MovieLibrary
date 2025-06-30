@@ -11,7 +11,7 @@ struct ContentView<ViewModel: HomeViewModel>: View {
     @StateObject var viewModel: ViewModel
     
     var body: some View {
-        HomeView()
+        TabBarView()
     }
 }
 
