@@ -7,11 +7,8 @@
 
 import SwiftUI
 
-
-
 struct HomeView: View {
-    
-    @ObservedObject var viewModel: HomeViewModel //TODO: StateObject ile arasındaki farkı öğren
+    @StateObject var viewModel: HomeViewModel
     @State private var selectedMovie: MovieModel?
 
     var body: some View {
@@ -19,56 +16,74 @@ struct HomeView: View {
             ZStack {
                 Color.black.ignoresSafeArea()
 
-                ScrollView {
-                    VStack(spacing: 20) {
-                        
-                        HStack {
-                            SingleMovieView(
-                                viewModel: SingleMovieViewModel(
+                switch viewModel.state {
+                case .loading:
+                    ProgressView("Yükleniyor...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .foregroundColor(.white)
+                        .scaleEffect(1.5)
+
+                case .loaded:
+                    ScrollView {
+                        VStack(spacing: 20) {
+
+                            HStack {
+                                SingleMovieView(
+                                    viewModel: SingleMovieViewModel(
+                                        movieService: MovieService(requestProcessor: RequestProcessor()),
+                                        onMovieTap: { movie in
+                                            selectedMovie = movie
+                                        })
+                                )
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.top, 8)
+                            }
+
+                            CategorySectionView(
+                                viewModel: CategoriesSectionViewModel(
                                     movieService: MovieService(requestProcessor: RequestProcessor()),
+                                    movieType: .popularMovies,
                                     onMovieTap: { movie in
                                         selectedMovie = movie
                                     })
                             )
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.top, 8)
+
+                            CategorySectionView(
+                                viewModel: CategoriesSectionViewModel(
+                                    movieService: MovieService(requestProcessor: RequestProcessor()),
+                                    movieType: .thisYear,
+                                    onMovieTap: { movie in
+                                        selectedMovie = movie
+                                    })
+                            )
+
+                            CategorySectionView(
+                                viewModel: CategoriesSectionViewModel(
+                                    movieService: MovieService(requestProcessor: RequestProcessor()),
+                                    movieType: .actionMovies,
+                                    onMovieTap: { movie in
+                                        selectedMovie = movie
+                                    })
+                            )
+
+                            CategorySectionView(
+                                viewModel: CategoriesSectionViewModel(
+                                    movieService: MovieService(requestProcessor: RequestProcessor()),
+                                    movieType: .comedy,
+                                    onMovieTap: { movie in
+                                        selectedMovie = movie
+                                    })
+                            )
                         }
+                        .padding()
+                    }
+
+                case .failed(let error):
+                    VStack(spacing: 16) {
+                        Text("Hata oluştu: \(error.localizedDescription)")
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
                         
-                        CategorySectionView(
-                            viewModel: CategoriesSectionViewModel(
-                                movieService: MovieService(requestProcessor: RequestProcessor()),
-                                movieType: .popularMovies,
-                                onMovieTap: { movie in
-                                    selectedMovie = movie
-                                })
-                        )
-
-                        CategorySectionView(
-                            viewModel: CategoriesSectionViewModel(
-                                movieService: MovieService(requestProcessor: RequestProcessor()),
-                                movieType: .thisYear,
-                                onMovieTap: { movie in
-                                    selectedMovie = movie
-                                })
-                        )
-
-                        CategorySectionView(
-                            viewModel: CategoriesSectionViewModel(
-                                movieService: MovieService(requestProcessor: RequestProcessor()),
-                                movieType: .actionMovies,
-                                onMovieTap: { movie in
-                                    selectedMovie = movie
-                                })
-                        )
-
-                        CategorySectionView(
-                            viewModel: CategoriesSectionViewModel(
-                                movieService: MovieService(requestProcessor: RequestProcessor()),
-                                movieType: .comedy,
-                                onMovieTap: { movie in
-                                    selectedMovie = movie
-                                })
-                        )
                     }
                     .padding()
                 }
@@ -76,7 +91,7 @@ struct HomeView: View {
             .navigationDestination(item: $selectedMovie) { movie in
                 MovieDetailView(movie: movie)
             }
-        }
+                    }
     }
 }
 

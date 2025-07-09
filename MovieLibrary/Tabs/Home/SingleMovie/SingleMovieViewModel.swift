@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+@MainActor
 final class SingleMovieViewModel: ObservableObject {
     
     private let movieService: MovieServiceProtocol
@@ -32,17 +32,17 @@ final class SingleMovieViewModel: ObservableObject {
             do {
                 
                 let movies: [MovieModel]
-                let allPopular = try await movieService.getPopularMovies(page: 3)
-                let allAction = try await movieService.getActionMovies(page: 2)
-                let allThisYear = try await movieService.getThisYearMovies(page: 4)
-                let allComedy = try await movieService.getComedyMovies(page: 6)
+                let allPopular = try await movieService.getPopularMovies(page: 1)
+                let allAction = try await movieService.getActionMovies(page: 1)
+                let allThisYear = try await movieService.getThisYearMovies(page: 1)
+                let allComedy = try await movieService.getComedyMovies(page: 1)
 
                 movies = allPopular + allAction + allThisYear + allComedy
 
                 if let randomMovie = movies.randomElement() {
-                    DispatchQueue.main.async {
+                    
                         self.movie = randomMovie
-                    }
+                    
                 }
             } catch {
                 print("Error fetching random movie: \(error.localizedDescription)")

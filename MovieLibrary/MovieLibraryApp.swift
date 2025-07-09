@@ -28,7 +28,11 @@ struct MovieLibraryApp: App {
     }
 }
 /*
- 1- TabbarView
- 2- Loading Indicator (lottie ios, swiftui network state management)
- 3- Movie of the day
+ 1- TabbarView = +
+ 2- Loading Indicator (lottie ios, swiftui network state management) = + (geç çalışıyor)
+ 3- Movie of the day = + (emilatör de yükleniyor da kalıyors)
+ 4- gereksiz kodları sil
+ 5- showcase i çöz
+ 6- detay sayfasını çöz
+ 7- Arama sayfasını tasarla düşün.
  */
