@@ -91,7 +91,8 @@ struct HomeView: View {
             .navigationDestination(item: $selectedMovie) { movie in
                 MovieDetailView(movie: movie)
             }
-                    }
+            
+        }
     }
 }
 

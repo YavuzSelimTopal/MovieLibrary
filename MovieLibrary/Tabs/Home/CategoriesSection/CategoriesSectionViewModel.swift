@@ -6,8 +6,6 @@
 //
 
 
-
-
 import Foundation
 
 final class CategoriesSectionViewModel: ObservableObject {

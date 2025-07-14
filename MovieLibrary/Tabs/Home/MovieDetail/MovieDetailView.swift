@@ -11,44 +11,49 @@ struct MovieDetailView: View {
     let movie: MovieModel
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
 
-                if let backdrop = movie.backdropURL {
-                    AsyncImage(url: backdrop) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                    } placeholder: {
-                        Color.gray
+                    if let backdrop = movie.backdropURL {
+                        AsyncImage(url: backdrop) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .cornerRadius(15)
+                        } placeholder: {
+                            Color.gray
+                        }
                     }
+
+                    Text(movie.title)
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(.red)
+
+                    Text("Çıkış Tarihi: \(movie.releaseDate)")
+                        .font(.subheadline)
+                        .foregroundColor(.red)
+
+                    Text("Puan: \(String(format: "%.1f", movie.voteAverage))/10")
+                        .font(.subheadline)
+                        .foregroundColor(.orange)
+
+                    Divider()
+
+                    Text(movie.overview)
+                        .font(.body)
+                        .foregroundColor(.red)
+
+                    Spacer()
                 }
-
-                Text(movie.title)
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(.primary)
-
-                Text("Çıkış Tarihi: \(movie.releaseDate)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-
-                Text("Puan: \(String(format: "%.1f", movie.voteAverage))/10")
-                    .font(.subheadline)
-                    .foregroundColor(.orange)
-
-                Divider()
-
-                Text(movie.overview)
-                    .font(.body)
-                    .foregroundColor(.primary)
-
-                Spacer()
+                .padding()
             }
-            .padding()
         }
         .navigationTitle(movie.title)
         .navigationBarTitleDisplayMode(.inline)
+        .tint(.red)
     }
 }
 #Preview {
