@@ -31,13 +31,7 @@ final class SingleMovieViewModel: ObservableObject {
         Task {
             do {
                 
-                let movies: [MovieModel]
-                let allPopular = try await movieService.getPopularMovies(page: 1)
-                let allAction = try await movieService.getActionMovies(page: 1)
-                let allThisYear = try await movieService.getThisYearMovies(page: 1)
-                let allComedy = try await movieService.getComedyMovies(page: 1)
-
-                movies = allPopular + allAction + allThisYear + allComedy
+                let movies = try await movieService.getNowPlayingMovies(page: 1)
 
                 if let randomMovie = movies.randomElement() {
                     
@@ -50,4 +44,3 @@ final class SingleMovieViewModel: ObservableObject {
         }
     }
 }
-

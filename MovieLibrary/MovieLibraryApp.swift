@@ -12,7 +12,7 @@ struct MovieLibraryApp: App {
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        appearance.backgroundColor = UIColor.black.withAlphaComponent(0.85)
         appearance.titleTextAttributes = [.foregroundColor: UIColor.red]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.red]
 
@@ -22,7 +22,7 @@ struct MovieLibraryApp: App {
 
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance  // Ekle burayı da
+        UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().tintColor = .red
     }
 

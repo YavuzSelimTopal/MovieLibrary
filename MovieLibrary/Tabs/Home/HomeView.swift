@@ -51,7 +51,7 @@ struct HomeView: View {
                             CategorySectionView(
                                 viewModel: CategoriesSectionViewModel(
                                     movieService: MovieService(requestProcessor: RequestProcessor()),
-                                    movieType: .thisYear,
+                                    movieType: .animation,
                                     onMovieTap: { movie in
                                         selectedMovie = movie
                                     })

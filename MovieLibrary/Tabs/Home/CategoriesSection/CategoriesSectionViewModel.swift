@@ -38,6 +38,9 @@ final class CategoriesSectionViewModel: ObservableObject {
                 movies = try await movieService.getThisYearMovies(page: 1)
             case .comedy:
                 movies = try await movieService.getComedyMovies(page: 1)
+            case .animation:
+                movies = try await movieService.getAnimationMovies(page: 1)
+            
             }
             DispatchQueue.main.async {
                 self.movies = movies
@@ -55,7 +58,7 @@ extension CategoriesSectionViewModel {
         case actionMovies
         case thisYear
         case comedy
-        
+        case animation
         var title: String {
             switch self {
             case .popularMovies:
@@ -66,6 +69,8 @@ extension CategoriesSectionViewModel {
                 return "This Year"
             case .comedy:
                 return "Comedy"
+            case .animation:
+                return "Animation"
             }
         }
     }
