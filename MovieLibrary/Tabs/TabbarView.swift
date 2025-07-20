@@ -50,9 +50,7 @@ struct TabBarView: View {
                 }
                 .tag(0)
             
-            NavigationStack {
-                MovieSearchView()
-            }
+            viewFactory.searchView()
             .tabItem {
                 Image(systemName: "magnifyingglass.circle.fill")
                 Text("Search")

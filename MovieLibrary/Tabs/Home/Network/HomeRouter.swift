@@ -16,10 +16,11 @@ enum HomeRouter: Endpoint {
     case getThisYear(page: Int)
     case getNowPlaying(page: Int)
     case getAnimation(page: Int)
+    case getAllMovies(page: Int)
     
     var path: String {
         switch self {
-        case .getAction, .getComedy, .getThisYear, .getAnimation:
+        case .getAction, .getComedy, .getThisYear, .getAnimation, .getAllMovies:
             return "discover/movie"
         case .getPopular:
             return "movie/popular"
@@ -30,7 +31,7 @@ enum HomeRouter: Endpoint {
     
     var method: HTTPMethod {
         switch self {
-            case .getAction, .getComedy, .getPopular, .getThisYear, .getNowPlaying, .getAnimation:
+            case .getAction, .getComedy, .getPopular, .getThisYear, .getNowPlaying, .getAnimation, .getAllMovies:
             return .get
             
         }
@@ -66,12 +67,15 @@ enum HomeRouter: Endpoint {
             pageItem = URLQueryItem(name: "page", value: "\(page)")
             let genre = URLQueryItem(name: "with_genres", value: "16")
             return [apiKey, language, sortBy, genre, pageItem]
+        case .getAllMovies(let page):
+            pageItem = URLQueryItem(name: "page", value: "\(page)")
+            return [apiKey, language, sortBy, pageItem]
         }
     }
     
     var body: [String : Any]? {
         switch self {
-        case .getAction, .getComedy, .getPopular, .getThisYear, .getNowPlaying, .getAnimation:
+        case .getAction, .getComedy, .getPopular, .getThisYear, .getNowPlaying, .getAnimation, .getAllMovies:
             return nil
         }
     }

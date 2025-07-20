@@ -14,6 +14,7 @@ protocol MovieServiceProtocol {
     func getThisYearMovies(page: Int) async throws -> [MovieModel]
     func getNowPlayingMovies(page: Int) async throws -> [MovieModel]
     func getAnimationMovies(page: Int) async throws -> [MovieModel]
+    func getAllMovies(page: Int) async throws -> [MovieModel]
 }
 
 final class MovieService: MovieServiceProtocol {
@@ -70,6 +71,15 @@ final class MovieService: MovieServiceProtocol {
 
     func getAnimationMovies(page: Int) async throws -> [MovieModel] {
         let endpoint = HomeRouter.getAnimation(page: page)
+        let dto = try await requestProcessor.request(
+            endpoint: endpoint,
+            type: MovieResponseDTO.self
+        )
+        return dto.results.map { MovieModel(dto: $0) }
+    }
+
+    func getAllMovies(page: Int) async throws -> [MovieModel] {
+        let endpoint = HomeRouter.getAllMovies(page: page)
         let dto = try await requestProcessor.request(
             endpoint: endpoint,
             type: MovieResponseDTO.self

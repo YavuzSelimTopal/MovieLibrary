@@ -14,9 +14,12 @@ struct ViewFactory {
         HomeView(viewModel: HomeViewModel(movieService: MovieService(requestProcessor: RequestProcessor())))
     }
     
+    func searchView() -> some View {
+        MovieSearchView(viewModel: MovieSearchViewModel(movieService: MovieService(requestProcessor: RequestProcessor())))
+    }
+    
     //profile
     
-    //search
 }
 
 private struct ViewFactoryEnvironmentKey: EnvironmentKey {
