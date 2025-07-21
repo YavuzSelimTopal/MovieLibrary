@@ -56,7 +56,7 @@ final class MovieSearchViewModel: ObservableObject {
         Task {
             do {
                 // Burada tüm filmleri çekiyor, sonra filtreliyor
-                // Not: İstersen API'de arama endpoint'i varsa doğrudan kullanabilirsin
+                // arama endpoint i varsa o da olur MARK: Ali Abiye sor
                 let movies = try await movieService.getAllMovies(page: 1)
                 
                 // Başlıklarda arama sorgusunu içerenler filtreleniyor (büyük/küçük harf duyarsız)

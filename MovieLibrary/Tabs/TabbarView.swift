@@ -3,7 +3,6 @@
 //  MovieLibrary
 //
 //  Created by MACim on 9.06.2025.
-//
 
 import SwiftUI
 
@@ -26,7 +25,7 @@ struct TabBarView: View {
         // Oluşturulan görünüm varsayılan sekme çubuğu görünümü olarak atanıyor.
         UITabBar.appearance().standardAppearance = tabBarAppearance
         
-        // iOS 15+ için, scroll ederken kullanılan görünüm de aynı şekilde atanıyor.
+        // Scroll ederken kullanılan görünüm de aynı şekilde atanıyor.
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
     }
 

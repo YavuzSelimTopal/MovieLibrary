@@ -11,7 +11,7 @@ struct MovieSearchCellView: View {
     let movie: MovieModel
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(spacing: 8) {
             // Poster resmi varsa göster, yoksa gri placeholder
             if let posterURL = movie.posterURL {
                 AsyncImage(url: posterURL) { phase in
@@ -22,6 +22,7 @@ struct MovieSearchCellView: View {
                         image
                             .resizable()
                             .scaledToFill()
+                            .transition(.opacity)
                     case .failure(_):
                         Color.red.opacity(0.3)
                     @unknown default:
@@ -29,22 +30,36 @@ struct MovieSearchCellView: View {
                     }
                 }
                 .frame(width: 150, height: 225)
+                .clipped()
                 .cornerRadius(15)
-                .shadow(radius: 5)
             } else {
                 Color.gray
-                    .frame(width: 100, height: 150)
-                    .cornerRadius(8)
+                    .frame(width: 150, height: 225)
+                    .cornerRadius(15)
             }
             
             // Film başlığı
             Text(movie.title)
                 .font(.headline)
                 .lineLimit(2)
+                .multilineTextAlignment(.center)
                 .foregroundColor(.red)
-                .frame(width: 150, alignment: .center)
+                .frame(width: 150, height: 42, alignment: .top)
+                .fixedSize(horizontal: false, vertical: true)
+            
+            // Oy ortalaması (puan)
+            Text("★ \(String(format: "%.1f", movie.voteAverage))")
+                .font(.caption)
+                .foregroundColor(.yellow.opacity(0.8))
         }
-        .padding(8)
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.black.opacity(0.3))
+                .background(.ultraThinMaterial)
+                .cornerRadius(20)
+                .shadow(color: .red.opacity(0.5), radius: 10, x: 0, y: 5)
+        )
     }
 }
 

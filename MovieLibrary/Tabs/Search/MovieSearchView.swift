@@ -24,11 +24,18 @@ struct MovieSearchView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.red)
-                    TextField("Search movies…", text: $viewModel.searchText)
-                        .foregroundColor(.red)
+                    ZStack(alignment: .leading) {
+                        if viewModel.searchText.isEmpty {
+                            Text("Search movies…")
+                                .foregroundColor(Color.red.opacity(0.5))
+                                .padding(.leading, 2)
+                        }
+                        TextField("", text: $viewModel.searchText)
+                            .foregroundColor(.red)
+                    }
                 }
-                .padding(12)
-                .background(Color.white.opacity(0.9))
+                .padding(15)
+                .background(.ultraThinMaterial.opacity(0.8))
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
