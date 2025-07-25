@@ -80,7 +80,7 @@ final class MovieService: MovieServiceProtocol {
     }
 
     func getAllMovies() async throws -> [MovieModel] {
-        let endpoint = HomeRouter.getAllMovies
+        let endpoint = SearchRouter.getAllMovies
         let dto = try await requestProcessor.request(
             endpoint: endpoint,
             type: MovieResponseDTO.self

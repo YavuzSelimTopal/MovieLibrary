@@ -40,6 +40,7 @@ struct TabBarView: View {
         }
         .ignoresSafeArea()
         .background(Color.black)
+        .accentColor(.red)
     }
     
     @ViewBuilder
