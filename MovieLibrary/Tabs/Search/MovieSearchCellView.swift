@@ -32,6 +32,7 @@ struct MovieSearchCellView: View {
                 .frame(width: 150, height: 225)
                 .clipped()
                 .cornerRadius(15)
+                .redBorder(cornerRadius: 15)
             } else {
                 Color.gray
                     .frame(width: 150, height: 225)
@@ -60,6 +61,7 @@ struct MovieSearchCellView: View {
                 .cornerRadius(20)
                 .shadow(color: .red.opacity(0.5), radius: 10, x: 0, y: 5)
         )
+        .redBorder(cornerRadius: 20)
     }
 }
 

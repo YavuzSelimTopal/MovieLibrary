@@ -96,8 +96,6 @@ struct HomeView: View {
     }
 }
 
-//ayır
-
 #Preview {
     HomeView(
         viewModel: HomeViewModel(

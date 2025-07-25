@@ -25,24 +25,21 @@ struct MovieSearchView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.red)
                     ZStack(alignment: .leading) {
+                        TextField("", text: $viewModel.searchText)
+                            .foregroundColor(.red)
+                        
                         if viewModel.searchText.isEmpty {
                             Text("Search movies…")
                                 .foregroundColor(Color.red.opacity(0.5))
                                 .padding(.leading, 2)
                         }
-                        TextField("", text: $viewModel.searchText)
-                            .foregroundColor(.red)
+                        
                     }
                 }
                 .padding(15)
                 .background(.ultraThinMaterial.opacity(0.8))
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.red, lineWidth: 2)
-                        .shadow(color: Color.red.opacity(0.7), radius: 10, x: 0, y: 0)
-                        .shadow(color: Color.red.opacity(0.5), radius: 20, x: 0, y: 0)
-                )
+                .cornerRadius(30)
+                .redBorder(cornerRadius: 30)
                 .padding()
                 
                 ScrollView {

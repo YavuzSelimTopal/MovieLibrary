@@ -55,22 +55,12 @@ final class MovieSearchViewModel: ObservableObject {
     private func searchMovies(query: String) {
         Task {
             do {
-                // Burada tüm filmleri çekiyor, sonra filtreliyor
-                // arama endpoint i varsa o da olur MARK: Ali Abiye sor
-                let movies = try await movieService.getAllMovies(page: 1)
-                
-                // Başlıklarda arama sorgusunu içerenler filtreleniyor (büyük/küçük harf duyarsız)
-                let filtered = movies.filter {
-                    $0.title.lowercased().contains(query.lowercased())
-                }
-                
-                // UI güncellemesi MainThread'de yapılmalı
+                let movies = try await movieService.searchMovies(query: query)
                 await MainActor.run {
-                    self.filteredMovies = filtered
+                    self.filteredMovies = movies
                 }
             } catch {
-                // API çağrısı ya da filtreleme sırasında hata olursa yazdır
-                print("Arama sırasında hata oluştu: \(error)")
+                print("API ile arama sırasında hata: \(error)")
             }
         }
     }
@@ -79,14 +69,10 @@ final class MovieSearchViewModel: ObservableObject {
     @MainActor
     func fetchAllMovies() async {
         do {
-            // Sayfa 1'deki tüm filmleri getir
-            let movies = try await movieService.getAllMovies(page: 1)
-            // Gelen tüm filmleri allMovies değişkenine ata
+            let movies = try await movieService.getAllMovies()
             self.allMovies = movies
-            // Başlangıçta tüm filmler listede gösterilir
             self.filteredMovies = movies
         } catch {
-            // Hata varsa konsola yazdır
             print("Tüm filmleri çekerken hata oluştu: \(error)")
         }
     }

@@ -6,57 +6,65 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct TabBarView: View {
     @State private var selectedTab: Int = 0
     @Environment(\.viewFactory) var viewFactory
 
-    init() {
-        // Yeni bir UITabBar görünümü (appearance) oluşturuluyor.
-        let tabBarAppearance = UITabBarAppearance()
-        
-        // Sekme çubuğunun arka planı şeffaf olacak şekilde yapılandırılıyor.
-        tabBarAppearance.configureWithTransparentBackground()
-        
-        // Arka plan rengi siyah olarak ayarlanıyor ama %85 saydam (yani hafif şeffaf).
-        tabBarAppearance.backgroundColor = UIColor.black.withAlphaComponent(0.85)
-        
-        // Oluşturulan görünüm varsayılan sekme çubuğu görünümü olarak atanıyor.
-        UITabBar.appearance().standardAppearance = tabBarAppearance
-        
-        // Scroll ederken kullanılan görünüm de aynı şekilde atanıyor.
-        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-    }
-
     var body: some View {
-        TabView(selection: $selectedTab) {
-           
-
-            NavigationStack {
-                ProfileView()
-            }
-            .tabItem {
-                Image(systemName: "person.circle")
-                Text("Profile")
-            }
-            .tag(1)
-
-            viewFactory.homeView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
+        ZStack(alignment: .bottom) {
+            VStack {
+                switch selectedTab {
+                case 0:
+                    viewFactory.homeView()
+                case 1:
+                    ProfileView()
+                case 2:
+                    viewFactory.searchView()
+                default:
+                    viewFactory.homeView()
                 }
-                .tag(0)
-            
-            viewFactory.searchView()
-            .tabItem {
-                Image(systemName: "magnifyingglass.circle.fill")
-                Text("Search")
             }
-            .tag(2)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black)
+
+            HStack(spacing: 65) {
+                tabItem(icon: "person.fill", index: 1)
+                tabItem(icon: "film.stack.fill", index: 0, isCenter: true)
+                tabItem(icon: "magnifyingglass.circle.fill", index: 2)
+            }
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
+            .background(Color.black.opacity(0.65).edgesIgnoringSafeArea(.bottom))
+            .clipShape(RoundedRectangle(cornerRadius: 0))
+            .shadow(color: .red.opacity(0.3), radius: 10, x: 0, y: -2)
         }
-        .tint(.red)
+        .ignoresSafeArea()
+        .background(Color.black)
+    }
+    
+    @ViewBuilder
+    private func tabItem(icon: String, index: Int, isCenter: Bool = false) -> some View {
+        Button(action: {
+            withAnimation(.spring()) {
+                selectedTab = index
+            }
+        }) {
+            ZStack {
+                Circle()
+                    .fill(Color.black.opacity(0.8))
+                    .frame(width: isCenter ? 65 : 50, height: isCenter ? 65 : 50)
+                    .shadow(color: selectedTab == index ? .red.opacity(0.7) : .clear, radius: 10)
+                    .overlay(
+                        Circle()
+                            .stroke(selectedTab == index ? Color.red : Color.gray.opacity(0.3), lineWidth: 2)
+                    )
+                
+                Image(systemName: icon)
+                    .font(.system(size: isCenter ? 26 : 22, weight: .semibold))
+                    .foregroundColor(selectedTab == index ? .red : .gray)
+                    .scaleEffect(selectedTab == index ? 1.2 : 1.0)
+            }
+        }
     }
 }
 

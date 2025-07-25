@@ -10,30 +10,31 @@ import Foundation
 
 enum HomeRouter: Endpoint {
     
-    case getAction(page: Int)
-    case getComedy(page: Int)
-    case getPopular(page: Int)
-    case getThisYear(page: Int)
-    case getNowPlaying(page: Int)
-    case getAnimation(page: Int)
-    case getAllMovies(page: Int)
+    case getAction
+    case getComedy
+    case getPopular
+    case getNowPlaying
+    case getAnimation
+    case getAllMovies
+    case search(query: String)
     
     var path: String {
         switch self {
-        case .getAction, .getComedy, .getThisYear, .getAnimation, .getAllMovies:
+        case .getAction, .getComedy, .getAnimation, .getAllMovies:
             return "discover/movie"
         case .getPopular:
             return "movie/popular"
         case .getNowPlaying:
             return "movie/now_playing"
+        case .search:
+            return "search/movie"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-            case .getAction, .getComedy, .getPopular, .getThisYear, .getNowPlaying, .getAnimation, .getAllMovies:
+            case .getAction, .getComedy, .getPopular, .getNowPlaying, .getAnimation, .getAllMovies, .search:
             return .get
-            
         }
     }
     
@@ -41,41 +42,32 @@ enum HomeRouter: Endpoint {
         let apiKey = URLQueryItem(name: "api_key", value: token)
         let language = URLQueryItem(name: "language", value: "tr-TR")
         let sortBy = URLQueryItem(name: "sort_by", value: "popularity.desc")
-        var pageItem: URLQueryItem
         
         switch self {
-        case .getAction(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
+        case .getAction:
             let genre = URLQueryItem(name: "with_genres", value: "28")
-            return [apiKey, language, sortBy, genre, pageItem]
-        case .getComedy(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
+            return [apiKey, language, sortBy, genre]
+        case .getComedy:
             let genre = URLQueryItem(name: "with_genres", value: "35")
-            return [apiKey, language, sortBy, genre, pageItem]
-        case .getPopular(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
-            return [apiKey, language, pageItem]
-        case .getThisYear(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
-            let year = String(Calendar.current.component(.year, from: Date()))
-            let releaseYear = URLQueryItem(name: "primary_release_year", value: year)
-            return [apiKey, language, sortBy, releaseYear, pageItem]
-        case .getNowPlaying(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
-            return [apiKey, language, pageItem]
-        case .getAnimation(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
+            return [apiKey, language, sortBy, genre]
+        case .getPopular:
+            return [apiKey, language]
+        case .getNowPlaying:
+            return [apiKey, language]
+        case .getAnimation:
             let genre = URLQueryItem(name: "with_genres", value: "16")
-            return [apiKey, language, sortBy, genre, pageItem]
-        case .getAllMovies(let page):
-            pageItem = URLQueryItem(name: "page", value: "\(page)")
-            return [apiKey, language, sortBy, pageItem]
+            return [apiKey, language, sortBy, genre]
+        case .getAllMovies:
+            return [apiKey, language, sortBy]
+        case .search(let query):
+            let queryItem = URLQueryItem(name: "query", value: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+            return [apiKey, language, queryItem]
         }
     }
     
     var body: [String : Any]? {
         switch self {
-        case .getAction, .getComedy, .getPopular, .getThisYear, .getNowPlaying, .getAnimation, .getAllMovies:
+        case .getAction, .getComedy, .getPopular, .getNowPlaying, .getAnimation, .getAllMovies, .search:
             return nil
         }
     }

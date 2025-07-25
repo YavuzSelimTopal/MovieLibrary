@@ -31,15 +31,15 @@ final class CategoriesSectionViewModel: ObservableObject {
             let movies: [MovieModel]
             switch movieType {
             case .popularMovies:
-                movies = try await movieService.getPopularMovies(page: 1)
+                movies = try await movieService.getPopularMovies()
             case .actionMovies:
-                movies = try await movieService.getActionMovies(page: 1)
-            case .thisYear:
-                movies = try await movieService.getThisYearMovies(page: 1)
+                movies = try await movieService.getActionMovies()
+//            case .thisYear:
+//                movies = try await movieService.getThisYearMovies(page: 1)
             case .comedy:
-                movies = try await movieService.getComedyMovies(page: 1)
+                movies = try await movieService.getComedyMovies()
             case .animation:
-                movies = try await movieService.getAnimationMovies(page: 1)
+                movies = try await movieService.getAnimationMovies()
             
             }
             DispatchQueue.main.async {
@@ -56,7 +56,7 @@ extension CategoriesSectionViewModel {
     enum MovieTypes {
         case popularMovies
         case actionMovies
-        case thisYear
+//        case thisYear
         case comedy
         case animation
         var title: String {
@@ -65,8 +65,8 @@ extension CategoriesSectionViewModel {
                 return "Popular Movies"
             case .actionMovies:
                 return "Action Movies"
-            case .thisYear:
-                return "This Year"
+//            case .thisYear:
+//                return "This Year"
             case .comedy:
                 return "Comedy"
             case .animation:

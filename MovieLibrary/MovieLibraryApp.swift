@@ -51,5 +51,5 @@ struct MovieLibraryApp: App {
  4- gereksiz kodları sil  +
  5- showcase i çöz  +
  6- detay sayfasını çöz  +
- 7- Arama sayfasını tasarla düşün.
+ 7- Arama sayfasını tasarla düşün. +
  */

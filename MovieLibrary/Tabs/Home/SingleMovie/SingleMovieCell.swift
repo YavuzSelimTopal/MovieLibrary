@@ -17,6 +17,7 @@ struct SingleMovieCell: View {
                     .resizable()
                     .frame(width: 350, height: 300)
                     .cornerRadius(12)
+                    .redBorder(cornerRadius: 12)
             } placeholder: {
                 Color.gray
                     .frame(width: 350, height: 300)
