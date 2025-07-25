@@ -16,7 +16,7 @@ enum HomeRouter: Endpoint {
     case getNowPlaying
     case getAnimation
     case getAllMovies
-    case search(query: String)
+    
     
     var path: String {
         switch self {
@@ -26,14 +26,13 @@ enum HomeRouter: Endpoint {
             return "movie/popular"
         case .getNowPlaying:
             return "movie/now_playing"
-        case .search:
-            return "search/movie"
+        
         }
     }
     
     var method: HTTPMethod {
         switch self {
-            case .getAction, .getComedy, .getPopular, .getNowPlaying, .getAnimation, .getAllMovies, .search:
+            case .getAction, .getComedy, .getPopular, .getNowPlaying, .getAnimation, .getAllMovies:
             return .get
         }
     }
@@ -59,15 +58,13 @@ enum HomeRouter: Endpoint {
             return [apiKey, language, sortBy, genre]
         case .getAllMovies:
             return [apiKey, language, sortBy]
-        case .search(let query):
-            let queryItem = URLQueryItem(name: "query", value: query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
-            return [apiKey, language, queryItem]
+        
         }
     }
     
     var body: [String : Any]? {
         switch self {
-        case .getAction, .getComedy, .getPopular, .getNowPlaying, .getAnimation, .getAllMovies, .search:
+        case .getAction, .getComedy, .getPopular, .getNowPlaying, .getAnimation, .getAllMovies:
             return nil
         }
     }

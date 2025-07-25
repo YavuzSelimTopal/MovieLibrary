@@ -89,7 +89,7 @@ final class MovieService: MovieServiceProtocol {
     }
 
     func searchMovies(query: String) async throws -> [MovieModel] {
-        let endpoint = HomeRouter.search(query: query)
+        let endpoint = SearchRouter.search(query: query)
         let dto = try await requestProcessor.request(
             endpoint: endpoint,
             type: MovieResponseDTO.self
